@@ -30,6 +30,8 @@ module.exports = {
         tsx: 'never',
       },
     ],
+    'no-return-assign': ['error', 'except-parens'],
+    'react/prop-types': 'off',
   },
   settings: {
     'import/resolver': {

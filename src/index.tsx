@@ -1,12 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from 'App/App';
+import { configure } from 'mobx';
+import { RootStateProvider } from 'Store/RootStateContext';
 import reportWebVitals from './reportWebVitals';
+
+configure({
+  enforceActions: 'always',
+  computedRequiresReaction: true,
+  reactionRequiresObservable: true,
+  observableRequiresReaction: true,
+  disableErrorBoundaries: true,
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <RootStateProvider>
+      <App />
+    </RootStateProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
