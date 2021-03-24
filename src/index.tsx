@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from 'App/App';
+import App from 'Components/App/App';
 import { configure } from 'mobx';
 import { RootStateProvider } from 'Store/RootStateContext';
 import reportWebVitals from './reportWebVitals';

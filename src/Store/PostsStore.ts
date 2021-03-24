@@ -1,10 +1,7 @@
 import { makeObservable, observable, action } from 'mobx';
 import { getPosts } from 'API/PostsAPI';
 
-type TPost = {
-  id: number;
-  title: string;
-};
+import type { TPost } from 'Types/post';
 
 export default class PostsStore {
   posts: TPost[] = [];
@@ -17,6 +14,6 @@ export default class PostsStore {
   }
 
   loadPosts = () => {
-    getPosts().then((result) => (this.posts = result.result));
+    getPosts().then(action((result) => (this.posts = result.result)));
   };
 }
