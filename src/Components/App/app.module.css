@@ -1,8 +1,12 @@
+.appContainer {
+  width: 60%;
+  margin: auto;
+  margin-top: 40px;
+}
+
 .listContainer {
   list-style: none;
   padding-inline-start: 0;
-  width: 60%;
-  margin: auto;
 }
 
 .postContainer {

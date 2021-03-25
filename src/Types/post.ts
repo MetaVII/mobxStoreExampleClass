@@ -1,3 +1,9 @@
+export enum PostSortFieldsEnum {
+  None = '',
+  Date = 'date',
+  Rating = 'rating',
+}
+
 export type TPost = {
   id: number;
   dateRFC: string;
