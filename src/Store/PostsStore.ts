@@ -1,4 +1,4 @@
-import { makeObservable, observable, action } from 'mobx';
+import { makeObservable, observable, action, runInAction } from 'mobx';
 import { getPosts } from 'API/PostsAPI';
 
 import type { TPost, PostSortFieldsEnum } from 'Types/post';
@@ -11,11 +11,23 @@ export default class PostsStore {
       posts: observable,
       loadPosts: action,
       sortPosts: action,
+      loadMorePosts: action,
     });
   }
 
-  loadPosts = () => {
-    getPosts().then(action((result) => (this.posts = result.result)));
+  loadPosts = async (offset?: number) => {
+    const result = await getPosts(offset);
+    runInAction(() => {
+      if (offset) {
+        this.posts = Array.from(new Set([...this.posts, ...result.result]));
+      } else {
+        this.posts = result.result;
+      }
+    });
+  };
+
+  loadMorePosts = () => {
+    this.loadPosts(this.posts.length + 1);
   };
 
   sortPosts = (sortFieldName: PostSortFieldsEnum) => {
