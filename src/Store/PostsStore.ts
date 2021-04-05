@@ -12,6 +12,7 @@ export default class PostsStore {
       loadPosts: action,
       sortPosts: action,
       loadMorePosts: action,
+      resetPosts: action,
     });
   }
 
@@ -28,6 +29,10 @@ export default class PostsStore {
 
   loadMorePosts = () => {
     this.loadPosts(this.posts.length + 1);
+  };
+
+  resetPosts = () => {
+    this.loadPosts();
   };
 
   sortPosts = (sortFieldName: PostSortFieldsEnum) => {

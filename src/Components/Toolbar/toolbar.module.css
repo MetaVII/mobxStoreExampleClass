@@ -6,3 +6,7 @@
 .select {
   border: none;
 }
+
+.buttonMargin {
+  margin-right: 10px;
+}

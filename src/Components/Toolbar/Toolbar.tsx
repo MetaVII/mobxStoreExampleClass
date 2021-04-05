@@ -11,7 +11,7 @@ function Toolbar() {
   );
 
   const { postsStore } = useRootStore();
-  const { sortPosts, loadMorePosts } = postsStore;
+  const { sortPosts, loadMorePosts, resetPosts } = postsStore;
 
   const changeSortField = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortField(e.target.value as PostSortFieldsEnum);
@@ -29,7 +29,11 @@ function Toolbar() {
         <option value={PostSortFieldsEnum.Date}>Дата</option>
         <option value={PostSortFieldsEnum.Rating}>Рейтинг</option>
       </select>
-      <Button text='Загрузить ещё' onClick={loadMorePosts} />
+      <div>
+        <Button text='Сбросить сообщения' onClick={resetPosts} />
+        <span className={styles.buttonMargin} />
+        <Button text='Загрузить ещё' onClick={loadMorePosts} />
+      </div>
     </div>
   );
 }
