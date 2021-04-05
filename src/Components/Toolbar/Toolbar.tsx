@@ -1,21 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { observer } from 'mobx-react';
 import { useRootStore } from 'Store/RootStateContext';
 import Button from 'Components/Button/Button';
 import { PostSortFieldsEnum } from 'Types/post';
 
 import styles from './toolbar.module.css';
 
-function Toolbar() {
-  const [sortField, setSortField] = useState<PostSortFieldsEnum>(
-    PostSortFieldsEnum.None
-  );
-
+const Toolbar = observer(() => {
   const { postsStore } = useRootStore();
-  const { sortPosts, loadMorePosts, resetPosts } = postsStore;
+  const { sortField, setSortField, loadMorePosts, resetPosts } = postsStore;
 
   const changeSortField = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortField(e.target.value as PostSortFieldsEnum);
-    sortPosts(e.target.value as PostSortFieldsEnum);
   };
 
   return (
@@ -36,6 +32,6 @@ function Toolbar() {
       </div>
     </div>
   );
-}
+});
 
 export default Toolbar;
