@@ -2,9 +2,10 @@ import { makeObservable, observable, action, runInAction } from 'mobx';
 import { getPosts } from 'API/PostsAPI';
 import { PostSortFieldsEnum } from 'Types/post';
 import type { TPost } from 'Types/post';
+import Post from './Post';
 
 export default class PostsStore {
-  posts: TPost[] = [];
+  posts: Post[] = [];
 
   sortField: PostSortFieldsEnum = PostSortFieldsEnum.None;
 
@@ -17,21 +18,32 @@ export default class PostsStore {
       loadMorePosts: action,
       resetPosts: action,
       setSortField: action,
-      onFilledByEditorsChange: action,
+      updatePostFromServer: action,
     });
   }
 
   loadPosts = async (offset?: number) => {
+    let fetchedPosts = null;
     const result = await getPosts(offset);
     runInAction(() => {
       if (offset) {
-        this.posts = Array.from(new Set([...this.posts, ...result.result]));
+        fetchedPosts = Array.from(new Set([...this.posts, ...result.result]));
       } else {
-        this.posts = result.result;
+        fetchedPosts = result.result;
       }
+      fetchedPosts.forEach((json: TPost) => this.updatePostFromServer(json));
     });
     this.sortPosts();
   };
+
+  updatePostFromServer(json: TPost) {
+    let foundPost = this.posts.find((post) => post.id === json.id);
+    if (!foundPost) {
+      foundPost = new Post(this);
+      this.posts.push(foundPost);
+    }
+    foundPost.updateFromJson(json);
+  }
 
   loadMorePosts = () => {
     this.loadPosts(this.posts.length + 1);
@@ -62,12 +74,5 @@ export default class PostsStore {
   setSortField = (sortField: PostSortFieldsEnum) => {
     this.sortField = sortField;
     this.sortPosts();
-  };
-
-  onFilledByEditorsChange = (id: number) => {
-    const changedPost = this.posts.find((post) => post.id === id);
-    if (changedPost) {
-      changedPost.is_filled_by_editors = !changedPost?.is_filled_by_editors;
-    }
   };
 }
