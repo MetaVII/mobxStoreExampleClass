@@ -17,6 +17,7 @@ export default class PostsStore {
       loadMorePosts: action,
       resetPosts: action,
       setSortField: action,
+      onFilledByEditorsChange: action,
     });
   }
 
@@ -61,5 +62,12 @@ export default class PostsStore {
   setSortField = (sortField: PostSortFieldsEnum) => {
     this.sortField = sortField;
     this.sortPosts();
+  };
+
+  onFilledByEditorsChange = (id: number) => {
+    const changedPost = this.posts.find((post) => post.id === id);
+    if (changedPost) {
+      changedPost.is_filled_by_editors = !changedPost?.is_filled_by_editors;
+    }
   };
 }

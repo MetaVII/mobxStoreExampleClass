@@ -16,4 +16,6 @@ export type TPost = {
   likes: {
     summ: number;
   };
+  // eslint-disable-next-line camelcase
+  is_filled_by_editors: boolean;
 };
